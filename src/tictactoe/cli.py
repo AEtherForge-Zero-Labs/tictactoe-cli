@@ -1,4 +1,6 @@
 import click
+import asyncio
+from tictactoe.tournament_manager import TournamentManager
 
 @click.group()
 def cli():
@@ -41,6 +43,16 @@ def admin(action):
         click.echo("Reviewing the project...")
         # Implement your review logic here
         click.echo("Project reviewed successfully.")
+
+
+@cli.command()
+@click.option('--directory', '-d ', default='./bots', help='Directory to load bots from.')
+def run(directory):
+    """Run the project."""
+
+    tournament = TournamentManager()
+    tournament.load_bots(directory)
+    asyncio.run(tournament.run_tournament())
 
 if __name__ == '__main__':
     cli()

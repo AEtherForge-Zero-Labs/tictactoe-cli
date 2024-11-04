@@ -2,9 +2,9 @@
 name = "TicTacToe"
 version = "0.0.1"
 authors = [
-  { name="Example Author", email="author@example.com" },
+  { name="Gerrit Wielenga", email="nova@mail.infernalnova.com" },
 ]
-description = "A small example package"
+description = "A tictactoe cli for Comp Sci Club"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
@@ -14,11 +14,16 @@ classifiers = [
 ]
 dependencies = [
     "click>=8.1",
+    "tictactoe-tournament @ git+ssh://github.com/AEtherForge-Zero-Labs/tictactoe-tournament.git@main"
 ]
 
+[project.optional-dependencies]
+dev = ["pytest", "black", "sphinx>=4.0", "sphinx-rtd-theme"]
+
+
 [project.urls]
-Homepage = "https://github.com/pypa/sampleproject"
-Issues = "https://github.com/pypa/sampleproject/issues"
+Homepage = "https://github.com/AEtherForge-Zero-Labs/tictactoe-cli"
+Issues = "https://github.com/AEtherForge-Zero-Labs/tictactoe-cli/issues"
 
 [project.scripts]
 ttt = "tttCLI.cli:cli"
@@ -29,3 +34,29 @@ build-backend = "flit_core.buildapi"
 
 [tool.flit.module]
 name = "tttCLI"
+
+
+
+# content below this line added by briefcase convert
+# This project was generated with 0.3.20 using template: https://github.com/beeware/briefcase-template@v0.3.20
+[tool.briefcase]
+project_name = "Tictactoe"
+bundle = "com.github.AEtherForge-Zero-Labs"
+version = "0.0.1"
+url = "https://github.com/AEtherForge-Zero-Labs/tictactoe-cli"
+license.file = "LICENSE"
+author = "Gerrit Wielenga"
+author_email = "nova@mail.infernalnova.com"
+
+[tool.briefcase.app.tictactoe]
+formal_name = "Tictactoe"
+description = "A tictactoe cli for Comp Sci Club"
+long_description = """More details about the app should go here.
+"""
+sources = [
+    "src/tictactoe",
+]
+test_sources = [
+    "tests",
+]
+

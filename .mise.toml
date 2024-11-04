@@ -1,0 +1,30 @@
+min_version = "2024.9.5"
+
+[env]
+# Use the project name derived from the current directory
+PROJECT_NAME = "{{ cwd | basename }}"
+PYTHONUNBUFFERED = 1
+# Automatic virtualenv activation
+_.python.venv = { path = "{{env.HOME}}/.virtualenvs/{{env.PROJECT_NAME}}", create = true }
+
+[tools]
+# Install the specified Python version
+python = "{{ get_env(name='PYTHON_VERSION', default='3.10') }}"
+
+# Install dependencies
+[tasks.install]
+alias = "i"
+run = "pip install -r requirements.txt"
+
+# Build
+[tasks.build]
+alias = "b"
+run = "python3 -m build"
+
+[tasks.clean]
+run = "rm -rf dist build"
+
+# Lint the code
+[tasks.lint]
+run = "black ."
+
