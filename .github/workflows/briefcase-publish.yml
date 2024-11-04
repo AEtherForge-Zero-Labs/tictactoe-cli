@@ -10,7 +10,11 @@ permissions:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]  # Specify the OS matrix
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,13 +24,23 @@ jobs:
         with:
           python-version: '3.10'  # Specify your Python version
 
+      - name: Cache Python packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.local
+            dist/
+            build/
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt', '**/setup.py') }}
+
       - name: Install Dependencies
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           python -m pip install --upgrade pip
           python -m pip install briefcase build
-          python -m pip install -r  .github/requirements.txt
+          python -m pip install -r .github/requirements.txt
 
       - name: Build Package
         run: python -m build
@@ -50,7 +64,6 @@ jobs:
       - name: Set up tag
         id: tag
         run: |
-          # Generate a unique tag name using the date and time or a versioning scheme
           TAG_NAME="release-$(date +'%Y%m%d%H%M%S')"
           echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
 
@@ -58,23 +71,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Create a new tag and push to GitHub
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git tag $TAG_NAME
           git push origin $TAG_NAME
 
-      - name: Download artifact
+      - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           name: packaged-app
           path: dist/
-
-      - name: Cache build files
-        uses: actions/cache@v4
-        with:
-          path: dist/
-          key: ${{ runner.os }}-${{ hashFiles('dist/**') }}
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
