@@ -1,6 +1,9 @@
 name: Package and Release Python App with Briefcase
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -40,9 +43,25 @@ jobs:
   release:
     needs: deploy
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up tag
+        id: tag
+        run: |
+          # Generate a unique tag name using the date and time or a versioning scheme
+          TAG_NAME="release-$(date +'%Y%m%d%H%M%S')"
+          echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
+
+      - name: Create new tag and push
+        run: |
+          # Create a new tag and push to GitHub
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
+
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
@@ -59,7 +78,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GH_TOKEN }}
-          tag: ${{ github.ref_name }}
+          tag: ${{ env.TAG_NAME }}
           draft: false
           prerelease: false
-          artifacts: "dist/*"  # Upload all files in the dist/ directory to the release
+          artifacts: "dist/*"
