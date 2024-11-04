@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]  # Specify the OS matrix
+        os: [ ubuntu-latest, windows-latest ]  # Specify the OS matrix
 
     steps:
       - name: Checkout code
@@ -46,7 +46,7 @@ jobs:
         run: python -m build
 
       - name: Package the app with Briefcase
-        run: briefcase package
+        run: briefcase package --adhoc-sign
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4.4.3
