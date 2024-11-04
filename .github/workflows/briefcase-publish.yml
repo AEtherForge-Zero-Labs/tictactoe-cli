@@ -1,8 +1,6 @@
 name: Package and Release Python App with Briefcase
 
-on:
-  release:
-    types: [published]
+on: push
 
 permissions:
   contents: read
