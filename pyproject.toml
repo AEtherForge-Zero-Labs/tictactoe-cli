@@ -14,7 +14,7 @@ classifiers = [
 ]
 dependencies = [
     "click>=8.1",
-     "tictactoe-tournament @ git+ssh://github.com/AEtherForge-Zero-Labs/tictactoe-tournament.git@main"
+     "tictactoe-tournament @ git+https://github.com/AEtherForge-Zero-Labs/tictactoe-tournament.git@main"
 ]
 
 [project.optional-dependencies]
