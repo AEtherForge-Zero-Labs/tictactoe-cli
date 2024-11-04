@@ -26,7 +26,7 @@ Homepage = "https://github.com/AEtherForge-Zero-Labs/tictactoe-cli"
 Issues = "https://github.com/AEtherForge-Zero-Labs/tictactoe-cli/issues"
 
 [project.scripts]
-ttt = "tttCLI.cli:cli"
+ttt = "tictactoe.cli:cli"
 
 [build-system]
 requires = ["flit_core<4"]
