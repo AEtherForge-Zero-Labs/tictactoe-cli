@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest ]  # Specify the OS matrix
+        os: [ windows-latest ]  # Specify the OS matrix
 
     steps:
       - name: Checkout code
