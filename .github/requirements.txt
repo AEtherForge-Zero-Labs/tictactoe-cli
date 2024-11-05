@@ -1,2 +1,0 @@
-click>=8.1
-tictactoe-tournament @ git+https://${GH_TOKEN}@github.com/AEtherForge-Zero-Labs/tictactoe-tournament.git@main
